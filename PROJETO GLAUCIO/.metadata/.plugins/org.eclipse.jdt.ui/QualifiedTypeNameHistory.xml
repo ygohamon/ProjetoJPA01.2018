@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="javax.persistence.Id"/>
+<fullyQualifiedTypeName name="javax.persistence.GeneratedValue"/>
+<fullyQualifiedTypeName name="javax.persistence.Entity"/>
+<fullyQualifiedTypeName name="br.com.cdc.windows.cadastros.Cadastro_Cliente"/>
+<fullyQualifiedTypeName name="br.com.cdc.windows.cadastros.Cadastro_Cidade"/>
+<fullyQualifiedTypeName name="br.com.cdc.windows.cadastros.Cadastro_Estado"/>
+<fullyQualifiedTypeName name="br.com.cdc.windows.Principal"/>
+<fullyQualifiedTypeName name="br.com.cdc.model.Estado"/>
+<fullyQualifiedTypeName name="javax.persistence.Query"/>
+<fullyQualifiedTypeName name="br.com.cdc.model.Cidade"/>
+<fullyQualifiedTypeName name="br.com.cdc.model.Cliente"/>
+<fullyQualifiedTypeName name="br.com.cdc.connection.Conexao"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="br.com.cdc.model.TableModelEstado"/>
+<fullyQualifiedTypeName name="javax.swing.table.AbstractTableModel"/>
+<fullyQualifiedTypeName name="java.awt.event.MouseEvent"/>
+<fullyQualifiedTypeName name="javax.persistence.NoResultException"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="br.com.cdc.windows.cadastros.Cadastro_Produto"/>
+</qualifiedTypeNameHistroy>

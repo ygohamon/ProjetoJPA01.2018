@@ -1,0 +1,177 @@
+package br.com.cdc.windows.cadastros;
+
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import com.jgoodies.forms.factories.DefaultComponentFactory;
+
+import br.com.cdc.connection.Conexao;
+import br.com.cdc.model.Cliente;
+import br.com.cdc.model.Produto;
+import br.com.cdc.model.TableModelVenda;
+import br.com.cdc.model.Venda;
+
+public class Cadastro_Venda extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+	private JTable tableVendas;
+
+	public static void main(String[] args) {
+		try {
+			Cadastro_Venda dialog = new Cadastro_Venda();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+			dialog.setResizable(false);
+			dialog.setModal(true);
+			dialog.setEnabled(true);
+			dialog.setTitle("Cadastro de Venda");
+			dialog.setLocationRelativeTo(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Cadastro_Venda() {
+		
+		setBounds(100, 100, 780, 490);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		
+		List<Produto> produtoCombo = Conexao.listarProduto();
+		
+		String produtos[] = new String[produtoCombo.size()];
+		
+		for(int i = 0; i < produtoCombo.size(); i++) {
+			
+			Produto produto = new Produto();
+			produtos[i] = produtoCombo.get(i).getNome();
+		}
+		
+		List<Cliente> clienteCombo = Conexao.listarClientes();
+		
+		String clientes[] = new String[clienteCombo.size()];
+		
+		for(int i = 0; i < clienteCombo.size(); i++) {
+			
+			Cliente cliente = new Cliente();
+			clientes[i] = clienteCombo.get(i).getNome();
+		}
+		
+		JLabel lblCadastroDeVenda = DefaultComponentFactory.getInstance().createTitle("Cadastro de Venda");
+		lblCadastroDeVenda.setBounds(5, 5, 422, 58);
+		lblCadastroDeVenda.setFont(new Font("Dialog", Font.BOLD, 45));
+		
+		JLabel lblCliente = new JLabel("Cliente:");
+		lblCliente.setBounds(11, 207, 64, 21);
+		lblCliente.setFont(new Font("Dialog", Font.BOLD, 16));
+		
+		JLabel lblProduto = new JLabel("Produto:");
+		lblProduto.setBounds(11, 257, 81, 21);
+		lblProduto.setFont(new Font("Dialog", Font.BOLD, 16));
+		
+		JComboBox comboBoxCliente = new JComboBox(clientes);
+		comboBoxCliente.setBounds(102, 202, 290, 31);
+		comboBoxCliente.setFont(new Font("Dialog", Font.PLAIN, 16));
+		contentPanel.setLayout(null);
+		
+		JComboBox comboBoxProduto = new JComboBox(produtos);
+		comboBoxProduto.setBounds(102, 252, 290, 31);
+		comboBoxProduto.setFont(new Font("Dialog", Font.PLAIN, 16));
+		contentPanel.setLayout(null);
+		
+		contentPanel.add(lblCadastroDeVenda);
+		contentPanel.add(lblCliente);
+		contentPanel.add(lblProduto);
+		contentPanel.add(comboBoxCliente);
+		contentPanel.add(comboBoxProduto);
+		
+		JLabel lblVendaCadastradas = new JLabel("Vendas Cadastradas");
+		lblVendaCadastradas.setFont(new Font("Dialog", Font.BOLD, 25));
+		lblVendaCadastradas.setBounds(460, 47, 265, 21);
+		contentPanel.add(lblVendaCadastradas);
+		
+		List<Venda> vendas = Conexao.listarVenda();
+		
+		ArrayList dados = new ArrayList();
+		
+		for(int i = 0; i < vendas.size(); i++) {
+			
+			Venda venda = new Venda();
+			venda.setId(vendas.get(i).getId());
+			dados.add(vendas);
+		}
+		
+		/*JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Venda venda = new Venda();
+				
+				
+				//venda.setProduto(comboBoxProduto.getSelectedItem().toString());
+				//venda.setCliente(comboBoxCliente.getSelectedItem().toString());
+				
+				try {
+					
+					Conexao.guardar(venda);
+					
+				}catch(NullPointerException f) {
+					
+					JOptionPane.showMessageDialog(null,"Ops.. Deve ter faltado preencher algo ai moral: \n" +f);
+				}
+				catch(Exception npe){
+					
+					JOptionPane.showMessageDialog(null, "Ops.. Algo deu errado: \n" +npe);
+				}
+				
+				comboBoxProduto.setSelectedItem(produtos[0]);
+				comboBoxCliente.setSelectedItem(clientes[0]);
+				JOptionPane.showMessageDialog(null,"Venda Cadastrada!");
+				modelo.addVenda(venda);
+				tableVendas.getModel();
+			}
+		});*/
+		/*btnSalvar.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnSalvar.setBounds(93, 417, 90, 28);
+		contentPanel.add(btnSalvar);*/
+		
+		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				comboBoxProduto.setSelectedItem(produtos[0]);
+				comboBoxCliente.setSelectedItem(clientes[0]);
+			}
+		});
+		btnLimpar.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnLimpar.setBounds(194, 417, 90, 28);
+		contentPanel.add(btnLimpar);
+		
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+         	    Cadastro_Venda.this.dispose();
+			}
+		});
+		btnVoltar.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnVoltar.setBounds(293, 417, 90, 28);
+		contentPanel.add(btnVoltar);
+	}
+}

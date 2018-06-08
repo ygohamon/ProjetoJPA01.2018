@@ -1,0 +1,258 @@
+package br.com.cdc.windows;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
+
+import br.com.cdc.connection.Conexao;
+import br.com.cdc.model.Cliente;
+import br.com.cdc.model.TableModelCliente;
+import br.com.cdc.windows.cadastros.Cadastro_Cidade;
+import br.com.cdc.windows.cadastros.Cadastro_Cliente;
+import br.com.cdc.windows.cadastros.Cadastro_Estado;
+import br.com.cdc.windows.cadastros.Cadastro_Produto;
+import br.com.cdc.windows.cadastros.Cadastro_Venda;
+
+public class Principal extends JFrame {
+
+	private JPanel contentPanel = new JPanel();
+	private JTable tableClientes;
+
+	public static void main(String[] args) {
+				EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						Principal dialog = new Principal();
+						dialog.setVisible(true);
+						dialog.setResizable(false);
+						dialog.setEnabled(true);
+						dialog.setTitle("Cadastro de Clientes");
+						dialog.setLocationRelativeTo(null);
+						
+					} catch (Exception e) {
+						
+						e.printStackTrace();
+					}
+			}
+		});
+	}
+
+	public Principal() {
+		
+		Conexao.iniciarFabrica();
+		
+		setBounds(100, 100, 710, 510);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		
+		JLabel lblClientes = new JLabel();
+		ImageIcon iconC = new ImageIcon(Principal.class.getResource("/br/com/cdc/image/cl.png"));
+		Image imaC = iconC.getImage();
+		//Image imagemC = imaC.getScaledInstance(lblClientes.getWidth(), lblClientes.getHeight(), Image.SCALE_DEFAULT);
+		Image imagemC = imaC.getScaledInstance(341, 355, Image.SCALE_DEFAULT);
+		Icon icoC = new ImageIcon(imagemC);
+		
+		lblClientes.setBounds(347, 39, 341, 355);
+		lblClientes.setIcon(icoC);
+		contentPanel.add(lblClientes);
+		
+		List<Cliente> clientes = Conexao.listarClientes();
+		
+		ArrayList dados = new ArrayList();
+		
+		for(int i = 0; i < clientes.size(); i++) {
+			
+			Cliente cliente = new Cliente();
+			cliente.setCodigo(clientes.get(i).getCodigo());
+			cliente.setNome(clientes.get(i).getNome());
+			dados.add(cliente);
+		}
+		
+		TableModelCliente modelo = new TableModelCliente(dados);
+		
+		tableClientes = new JTable();
+		tableClientes.setBounds(123, 11, 103, 344);
+		
+		tableClientes.setModel(modelo);
+		tableClientes.getColumnModel().getColumn(0).setPreferredWidth(30);
+		tableClientes.getColumnModel().getColumn(0).setResizable(false);
+		tableClientes.getColumnModel().getColumn(1).setPreferredWidth(210);
+		tableClientes.getColumnModel().getColumn(1).setResizable(false);
+		
+		JScrollPane scrollPaneFrontal = new JScrollPane(tableClientes);
+		scrollPaneFrontal.setBounds(10, 11, 325, 413);
+		contentPanel.add(scrollPaneFrontal);
+		
+		JButton button = new JButton("");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				tableClientes.getModel();	
+			}
+		});
+		button.setBounds(660, 396, 28, 28);
+		contentPanel.add(button);
+		
+		//contentPanel.add(tableClientes);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnCadastrarCliente = new JMenu("CADASTROS");
+		mnCadastrarCliente.setForeground(Color.BLACK);
+		mnCadastrarCliente.setFont(new Font("Dialog", Font.BOLD, 25));
+		menuBar.add(mnCadastrarCliente);
+		
+		JMenuItem mntmCliente = new JMenuItem("Cliente");
+		mntmCliente.setFont(new Font("Dialog", Font.PLAIN, 16));
+		mntmCliente.addMouseListener(new MouseListener() {
+            
+           @Override
+           public void mouseReleased(MouseEvent e) {   
+           }
+           @Override
+           public void mousePressed(MouseEvent e) { 
+        	   
+        	   Cadastro_Cliente frame = new Cadastro_Cliente();
+        	   frame.setVisible(true);
+        	   frame.setResizable(false);
+           }
+           @Override
+           public void mouseExited(MouseEvent e) {   
+           }    
+           @Override
+           public void mouseEntered(MouseEvent e) {
+           }
+           @Override
+           public void mouseClicked(MouseEvent e) {  
+           }
+       });
+		mnCadastrarCliente.add(mntmCliente);
+		
+		JMenuItem mntmCidade = new JMenuItem("Cidade");
+		mntmCidade.setFont(new Font("Dialog", Font.PLAIN, 16));
+		mntmCidade.addMouseListener(new MouseListener() {
+            
+           @Override
+           public void mouseReleased(MouseEvent e) {   
+           }
+           @Override
+           public void mousePressed(MouseEvent e) { 
+        	   Cadastro_Cidade frame = new Cadastro_Cidade();
+        	   frame.setVisible(true);
+        	   frame.setResizable(false);
+           }
+           @Override
+           public void mouseExited(MouseEvent e) {   
+           }    
+           @Override
+           public void mouseEntered(MouseEvent e) {
+           }
+           @Override
+           public void mouseClicked(MouseEvent e) {
+           }
+       });
+		mnCadastrarCliente.add(mntmCidade);
+		
+		JMenuItem mntmEstado = new JMenuItem("Estado");
+		mntmEstado.setFont(new Font("Dialog", Font.PLAIN, 16));
+		mntmEstado.addMouseListener(new MouseListener() {
+            
+           @Override
+           public void mouseReleased(MouseEvent e) {   
+           }
+           @Override
+           public void mousePressed(MouseEvent e) { 
+        	   Cadastro_Estado frame = new Cadastro_Estado();
+        	   frame.setVisible(true);
+        	   frame.setResizable(false);
+           }
+           @Override
+           public void mouseExited(MouseEvent e) {   
+           }    
+           @Override
+           public void mouseEntered(MouseEvent e) {
+           }
+           @Override
+           public void mouseClicked(MouseEvent e) {
+           }
+       });
+		mnCadastrarCliente.add(mntmEstado);
+		
+		JMenuItem mntmProduto = new JMenuItem("Produto");
+		mntmProduto.setFont(new Font("Dialog", Font.PLAIN, 16));
+		mntmProduto.addMouseListener(new MouseListener() {
+			 
+			@Override
+	           public void mouseReleased(MouseEvent e) {   
+	           }
+	           @Override
+	           public void mousePressed(MouseEvent e) { 
+	        	   Cadastro_Produto frame = new Cadastro_Produto();
+	        	   frame.setVisible(true);
+	        	   frame.setResizable(false);
+	           }
+	           @Override
+	           public void mouseExited(MouseEvent e) {   
+	           }    
+	           @Override
+	           public void mouseEntered(MouseEvent e) {
+	           }
+	           @Override
+	           public void mouseClicked(MouseEvent e) {
+	           }
+			
+		});
+		mnCadastrarCliente.add(mntmProduto);
+		
+		JMenu mntmVenda = new JMenu("VENDA");
+		mntmVenda.setFont(new Font("Dialog", Font.BOLD, 25));
+		mntmVenda.addMouseListener(new MouseListener() {
+            
+           @Override
+           public void mouseReleased(MouseEvent e) {   
+           }
+           @Override
+           public void mousePressed(MouseEvent e) { 
+        	   
+        	   Cadastro_Venda frame = new Cadastro_Venda();
+        	   frame.setVisible(true);
+        	   frame.setResizable(false);
+           }
+           @Override
+           public void mouseExited(MouseEvent e) {   
+           }    
+           @Override
+           public void mouseEntered(MouseEvent e) {
+           }
+           @Override
+           public void mouseClicked(MouseEvent e) {  
+           }
+       });
+		mnCadastrarCliente.add(mntmCliente);
+		
+	}
+}
